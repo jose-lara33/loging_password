@@ -1,91 +1,57 @@
 import 'package:flutter/material.dart'; // Importa el paquete de Material Design de Flutter.
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:go_router/go_router.dart';
-import 'package:validacionusuarios/config/menu/menu_item.dart'; // Importa Riverpod para la gestión del estado.
 
-class LoginScreen extends ConsumerWidget {
-  // Define una clase llamada LoginScreen que extiende ConsumerWidget.
-  static const name =
-      'login_screen'; // Define un nombre constante para la pantalla.
+import 'package:validacionusuarios/presentation/screens/screens.dart';
+// Importa Riverpod para la gestión del estado.
 
-  const LoginScreen(
-      {super.key}); // Constructor de la clase, permite la clave de superclase.
+class LoginScreen extends StatelessWidget {
+  final TextEditingController usernombreController = TextEditingController();
+  final TextEditingController contrasenaController = TextEditingController();
+
+  LoginScreen({Key? key}) : super(key: key);
+
+  void navigateToSecondScreen(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => LobbyScreen(
+        username: usernombreController.text,
+        password: contrasenaController.text,
+      ),
+    ));
+  }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // Método que construye el widget.
-    final TextEditingController usernombreController =
-        TextEditingController(); // Controlador para el campo de usuario.
-    final TextEditingController contrasenaController = TextEditingController();
-    const MenuItem menuItem = MenuItem(
-        title: '',
-        subTitle: '',
-        link: '/lobby',
-        icon: Icons.add); // Controlador para el campo de contraseña.
-
+  Widget build(BuildContext context) {
     return Scaffold(
-      // Devuelve un Scaffold, que es una estructura básica para la interfaz de usuario.
       appBar: AppBar(
-        // Crea una barra de aplicación en la parte superior.
-        title:
-            const Text('Iniciar Sesión'), // Título de la barra de aplicación.
+        title: const Text('Iniciar Sesión'),
       ),
       body: Center(
-        // Centra el contenido en el cuerpo de la pantalla.
         child: Padding(
-          // Añade un padding alrededor del contenido.
-          padding: const EdgeInsets.all(
-              16.0), // Establece un padding de 16 píxeles en todos los lados.
+          padding: const EdgeInsets.all(16.0),
           child: Column(
-            // Crea una columna para organizar los widgets verticalmente.
-            mainAxisAlignment: MainAxisAlignment
-                .center, // Centra los hijos en el eje principal.
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextField(
-                // Crea un campo de texto para el usuario.
-                controller:
-                    usernombreController, // Asocia el controlador al campo de texto.
+                controller: usernombreController,
                 decoration: const InputDecoration(
-                  // Configura la apariencia del campo de texto.
-                  labelText: 'Usuario', // Texto que aparece arriba del campo.
-                  border:
-                      OutlineInputBorder(), // Establece un borde alrededor del campo.
+                  labelText: 'Usuario',
+                  border: OutlineInputBorder(),
                 ),
               ),
-              const SizedBox(
-                  height:
-                      16), // Espacio vertical de 16 píxeles entre los campos.
+              const SizedBox(height: 16),
               TextField(
-                // Crea un campo de texto para la contraseña.
-                controller:
-                    contrasenaController, // Asocia el controlador al campo de texto.
+                controller: contrasenaController,
                 decoration: const InputDecoration(
-                  // Configura la apariencia del campo de texto.
-                  labelText:
-                      'Contraseña', // Texto que aparece arriba del campo.
-                  border:
-                      OutlineInputBorder(), // Establece un borde alrededor del campo.
+                  labelText: 'Contraseña',
+                  border: OutlineInputBorder(),
                 ),
-                obscureText:
-                    true, // Oculta el texto ingresado (para contraseñas).
+                obscureText: true,
               ),
-              const SizedBox(
-                  height:
-                      16), // Espacio vertical de 16 píxeles entre los campos.
+              const SizedBox(height: 16),
               ElevatedButton(
-                // Crea un botón elevado.
-                onPressed: () {
-                  // Define la acción que se ejecuta al presionar el botón.
-                  // Aquí puedos manejar la lógica de inicio de sesión.
-                  final username = usernombreController.text; // Obtiene el texto del campo de usuario.
-                  final password = contrasenaController.text;// Obtiene el texto del campo de contraseña.
-                  
-                  print('Usuario: $username, Contraseña: $password');// Imprime las credenciales en la consola.
-
-                       context.push(menuItem.link); 
-                },
-                child: const Text(
-                    'Iniciar Sesión'), // Texto que aparece en el botón.
+                onPressed: () => navigateToSecondScreen(context),
+                child: const Text('Iniciar Sesión'),
               ),
             ],
           ),

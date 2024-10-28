@@ -5,23 +5,22 @@ import 'package:validacionusuarios/presentation/screens/login/login_screen.dart'
 
 
 
-final appRouter = GoRouter(initialLocation: '/', routes: <RouteBase>[
-  
-  GoRoute(
-    path: '/',
-    name: LoginScreen.name,
-    builder: (context, state) => const LoginScreen(),
-  ),
-  GoRoute(
-      path: '/lobby', // Ruta para la pantalla del lobby.
-      name: 'lobby',
-      builder: (context, state) => const LobbyScreen(), 
+final GoRouter appRouter = GoRouter(
+  routes: [
+    GoRoute(
+      path: '/',
+      builder: (context, state) => LoginScreen(),
     ),
+    GoRoute(
+      path: '/lobby',
+      builder: (context, state) {
+        final extra = state.extra as Map<String, String>?;
+        final username = extra?['username'] ?? '';
+        final password = extra?['password'] ?? '';
 
-  
-  // GoRoute(
-  // path: '/cards',
-  //  name: CardsScreen.name,
-  //builder: (context, state) => const CardsScreen(),
-  // ),
-]);
+        return LobbyScreen(username: username, password: password);
+      },
+    ),
+   
+  ],
+);
